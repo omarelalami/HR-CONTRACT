@@ -1,0 +1,35 @@
+<div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-gavel"></i>
+        <span>HR-Legal</span>
+      </div>
+      <button class="theme-toggle" (click)="toggleTheme()" aria-label="Toggle theme">
+        <i [ngClass]="isDarkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
+      </button>
+    </header>
+  
+    <div class="card-grid">
+      <!-- Tool Cards -->
+      <div class="tool-card" *ngFor="let tool of tools; let i = index" [style.animationDelay]="i * 0.1 + 's'">
+        <div class="card-header">
+          <div class="card-icon">
+            <i [class]="tool.icon"></i>
+          </div>
+          <div>
+            <h3 class="card-title">{{ tool.title }}</h3>
+            <p class="card-subtitle">{{ tool.subtitle }}</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-description">{{ tool.description }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="card-btn">
+            <i [class]="tool.buttonIcon"></i> {{ tool.buttonText }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
