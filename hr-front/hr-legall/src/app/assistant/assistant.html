@@ -1,0 +1,69 @@
+<!-- assistant.component.html -->
+<header class="header">
+  <a href="#" class="logo">
+    <i class="fas fa-robot logo-icon"></i>
+    <span class="logo-text">HR Assistant</span>
+  </a>
+  <div class="user-avatar">
+    <i class="fas fa-user"></i>
+  </div>
+</header>
+
+<div class="modal" id="uploadModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Importer un Document</h3>
+      <button class="close-btn" (click)="closeModal()">&times;</button>
+    </div>
+
+    <label class="upload-area" id="dropArea" (drop)="handleDrop($event)" (dragover)="preventDefaults($event)" (dragleave)="unhighlight()" (dragenter)="highlight()">
+      <i class="fas fa-cloud-upload-alt upload-icon"></i>
+      <p class="upload-text">Glissez-déposez vos fichiers ici</p>
+      <p class="upload-hint">Formats supportés: PDF, DOCX, TXT</p>
+      <input type="file" id="fileInput" class="file-input" accept=".pdf,.docx,.txt" multiple (change)="handleFileChange($event)">
+    </label>
+
+    <div class="file-preview" *ngIf="selectedFileName">
+      <i [class]="fileIconClass"></i>
+      <span class="file-name">{{ selectedFileName }}</span>
+      <i class="fas fa-times remove-file" (click)="removeFile()"></i>
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn secondary-btn" (click)="closeModal()">Annuler</button>
+      <button class="modal-btn primary-btn" (click)="confirmUpload()">
+        <i class="fas fa-upload"></i> Importer
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="chat-container">
+  <div class="chat-messages">
+    <div class="message bot-message">
+      Bonjour ! Je suis votre assistant RH intelligent. Vous pouvez me poser des questions ou importer des documents pour analyse.
+      <div class="message-time">{{ currentTime }}</div>
+    </div>
+
+    <div *ngFor="let msg of messages" class="message" [ngClass]="{'user-message': msg.sender === 'user', 'bot-message': msg.sender === 'bot'}">
+      {{ msg.text }}
+    </div>
+
+    <!-- Message d'attente -->
+    <div *ngIf="isLoading" class="message bot-message loading-message">
+      <i class="fas fa-robot fa-spin"></i> Je réfléchis...
+    </div>
+  </div>
+
+  <div class="input-area">
+    <textarea class="message-input" [(ngModel)]="messageInput" placeholder="Posez votre question RH ici..." rows="1"></textarea>
+    <div class="action-buttons">
+      <button class="action-button" (click)="openModal()" title="Importer un document">
+        <i class="fas fa-file-import"></i>
+      </button>
+      <button class="action-button" (click)="sendMessage()" title="Envoyer le message">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
